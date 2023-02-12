@@ -102,7 +102,9 @@ app.layout = dbc.Container(
         header,
         # dbc.Row([dbc.Col('ct-grid')]),
         dbc.Row(dbc.Col(table, className="py-4")),
-        dbc.Row(dcc.Graph(id='ct-map', figure=blank_fig(500)))
+        dcc.Loading(
+            dbc.Row(dcc.Graph(id='ct-map', figure=blank_fig(500)))
+        )
     ],
 )
 
