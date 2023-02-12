@@ -128,17 +128,19 @@ def update_ct_map(selected_row):
 
     else:
         sel_dict = selected_row[0]
-        print(type(sel_dict))
+        # print(type(sel_dict))
         del sel_dict['Label']
-        print(sel_dict)
+        # print(sel_dict)
         df2 = pd.DataFrame.from_dict(sel_dict, orient='index', columns=['Count'])
         df2.index.names = ['TRACTCE20']
         print(df2)
-        
-        fig = px.choropleth_mapbox(gdf, 
-                                    geojson=gdf.geometry, 
-                                    color="TRACTCE20",                               
-                                    locations=gdf.index, 
+        tgdf = gdf.merge(df2, on='TRACTCE20')
+        tgdf['Count'] = (tgdf['Count'].astype(int))
+        print(tgdf)
+        fig = px.choropleth_mapbox(tgdf, 
+                                    geojson=tgdf.geometry, 
+                                    color="Count",                               
+                                    locations=tgdf.index, 
                                     # featureidkey="properties.TRACTCE20",
                                     opacity=0.5)
 
