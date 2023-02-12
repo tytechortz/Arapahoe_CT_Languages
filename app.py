@@ -26,14 +26,44 @@ tracts.insert(0,'Label')
 print(tracts)
 
 df.columns = tracts
-print(df)
+# print(df)
+
+columnDefs = [
+    {
+        'headerName': 'Label',
+        'field': 'Label'
+    }
+]
+
+defaultColDef = {
+    "filter": True,
+    "resizable": True,
+    "sortable": True,
+    "editable": False,
+    "floatingFilter": True,
+    "minWidth": 125
+}
+
+table = dag.AgGrid(
+    id='ct-grid',
+    className="ag-theme-alpine-dark",
+    columnDefs=columnDefs,
+    rowData=df.to_dict("records"),
+    columnSize="sizeToFit",
+    defaultColDef=defaultColDef,
+    # cellStyle=cellStyle,
+    # dangerously_allow_code=True,
+    dashGridOptions={"undoRedoCellEditing": True, "rowSelection": "single"},
+)
+
+
 
 
 app.layout = dbc.Container(
     [
         header,
-        # dbc.Row([dbc.Col(ct_map)]),
-        # dbc.Row(dbc.Col(table, className="py-4")),
+        # dbc.Row([dbc.Col('ct-grid')]),
+        dbc.Row(dbc.Col(table, className="py-4")),
     ],
 )
 
