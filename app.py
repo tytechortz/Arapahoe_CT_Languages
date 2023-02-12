@@ -28,12 +28,24 @@ tracts.insert(0,'Label')
 df.columns = tracts
 # print(df)
 
-columnDefs = [
-    {
-        'headerName': 'Label',
-        'field': 'Label'
-    }
-]
+columnDefs = []
+
+def get_ct():
+    for x in tracts:
+        columnDefs.append({'headerName': x, 'field': x}) 
+
+get_ct()
+
+# columnDefs = [
+#     {
+#         'headerName': 'Label',
+#         'field': 'Label'
+#     },
+#     {
+#         'headerName': '004951',
+#         'field': '004951'
+#     }
+# ]
 
 defaultColDef = {
     "filter": True,
