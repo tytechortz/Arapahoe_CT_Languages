@@ -113,6 +113,10 @@ app.layout = dbc.Container(
     Input('ct-grid', 'selectionChanged'),
 )
 def update_ct_map(selected_row):
+    print(selected_row)
+    
+
+
     if selected_row is None:
 
         fig = px.choropleth_mapbox(gdf, 
@@ -123,7 +127,20 @@ def update_ct_map(selected_row):
                                     opacity=0.5)
 
     else:
-        print(selected_row)
+        sel_dict = selected_row[0]
+        print(type(sel_dict))
+        del sel_dict['Label']
+        print(sel_dict)
+        df2 = pd.DataFrame.from_dict(sel_dict, orient='index', columns=['Count'])
+        df2.index.names = ['TRACTCE20']
+        print(df2)
+        
+        fig = px.choropleth_mapbox(gdf, 
+                                    geojson=gdf.geometry, 
+                                    color="TRACTCE20",                               
+                                    locations=gdf.index, 
+                                    # featureidkey="properties.TRACTCE20",
+                                    opacity=0.5)
 
     fig.update_layout(mapbox_style="carto-positron", 
                       mapbox_zoom=10.4,
