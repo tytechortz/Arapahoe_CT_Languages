@@ -14,7 +14,7 @@ header = html.Div("Arapahoe County Languages by Census Tract", className="h2 p-2
 
 template = {"layout": {"paper_bgcolor": bgcolor, "plot_bgcolor": bgcolor}}
 
-df = pd.read_csv('ACSDT5Y2021.C16001-2023-02-11T183920.csv')
+df = pd.read_csv('ACSDT5Y2021.C16001-2023-02-11T183920-1.csv')
 df.drop(df.columns[[1,2]], axis=1, inplace=True)
 df.drop(df.iloc[:,2::2], axis=1, inplace=True)
 
@@ -121,6 +121,9 @@ def update_ct_map(selected_row):
                                     locations=gdf.index, 
                                     # featureidkey="properties.TRACTCE20",
                                     opacity=0.5)
+
+    else:
+        print(selected_row)
 
     fig.update_layout(mapbox_style="carto-positron", 
                       mapbox_zoom=10.4,
