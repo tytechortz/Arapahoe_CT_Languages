@@ -19,6 +19,7 @@ df.drop(df.columns[[1,2]], axis=1, inplace=True)
 df.drop(df.iloc[:,2::2], axis=1, inplace=True)
 
 
+
 gdf = gpd.read_file('/Users/jamesswank/Python_projects/covid_heatmap/Census_Tracts_2020_SHAPE_WGS/Census_Tracts_2020_WGS.shp')
 gdf = gdf.to_crs("epsg:4326")
 gdf = gdf.set_geometry('geometry')
@@ -135,8 +136,14 @@ def update_ct_map(selected_row):
         df2.index.names = ['TRACTCE20']
         print(df2)
         tgdf = gdf.merge(df2, on='TRACTCE20')
-        tgdf['Count'] = (tgdf['Count'].astype(int))
         print(tgdf)
+        tgdf['Count'] = tgdf['Count'].str.replace(",", "")
+        print(tgdf['Count'])
+        tgdf.fillna(0,inplace=True)
+        tgdf['Count'] = (tgdf['Count'].astype(int))
+        tgdf = tgdf.set_index('TRACTCE20')
+        
+        # print(tgdf)
         fig = px.choropleth_mapbox(tgdf, 
                                     geojson=tgdf.geometry, 
                                     color="Count",                               
